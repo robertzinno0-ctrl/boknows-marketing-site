@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Industries — Bo Knows Marketing{% endblock %}
+{% block content %}
+
+<section style="background:linear-gradient(135deg,#1a2e4a,#0f1e32);padding:80px 5% 60px;text-align:center">
+  <div class="container">
+    <div class="section-label">Who We Work With</div>
+    <h1 style="font-size:46px;font-weight:900;color:#fff;margin-bottom:16px">We Serve Any Service Business</h1>
+    <p style="font-size:18px;color:rgba(255,255,255,.7);max-width:520px;margin:0 auto">If you sell a service and need more clients, we can help. Here are the industries we specialize in.</p>
+  </div>
+</section>
+
+<section style="background:var(--light)">
+  <div class="container">
+    <div class="grid-2" style="gap:24px">
+      {% set industries = [
+        ("🏦","Mortgage & Lending","Refinance leads, purchase leads, FHA/VA — we target borrowers at the exact moment they're searching.","$100-$300 per lead"),
+        ("🏠","Real Estate","Buyer leads, seller leads, investor outreach — we fill your pipeline with motivated prospects.","$50-$150 per lead"),
+        ("⚖️","Law Firms","Personal injury, family law, criminal defense — high-value leads for attorneys who want to grow.","$100-$500 per lead"),
+        ("🦷","Dental & Medical","New patient acquisition, implant leads, cosmetic procedures — we grow your practice.","$50-$150 per lead"),
+        ("☀️","Solar","Homeowner solar leads targeting the right credit score and roof type — qualified and ready.","$50-$120 per lead"),
+        ("🔧","HVAC & Plumbing","Emergency and seasonal leads for service calls, installs, and replacements.","$40-$80 per lead"),
+        ("🏗️","Roofing & Contractors","Storm damage leads, replacement leads, inspection requests — high-ticket jobs.","$60-$150 per lead"),
+        ("💰","Financial Services","Insurance, wealth management, tax prep — we target people actively looking for help.","$50-$200 per lead"),
+        ("🚗","Auto Services","Dealerships, repair shops, detailing — local customers ready to spend.","$20-$60 per lead"),
+        ("💊","Addiction & Rehab","High-sensitivity campaigns handled with care and full compliance.","$200-$500 per lead"),
+      ] %}
+      {% for icon, name, desc, price in industries %}
+      <div class="card" style="display:flex;gap:20px;align-items:flex-start">
+        <div style="font-size:36px;flex-shrink:0">{{icon}}</div>
+        <div>
+          <h3 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:6px">{{name}}</h3>
+          <p style="font-size:14px;color:var(--gray);line-height:1.6;margin-bottom:10px">{{desc}}</p>
+          <span style="background:rgba(243,156,18,.15);color:var(--gold);font-size:12px;font-weight:700;padding:3px 10px;border-radius:10px">{{price}}</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div style="text-align:center;margin-top:50px">
+      <p style="font-size:16px;color:var(--gray);margin-bottom:20px">Don't see your industry? We work with any service business.</p>
+      <a href="/contact" class="btn btn-gold">Talk to Us →</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

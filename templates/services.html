@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}Services — Bo Knows Marketing{% endblock %}
+{% block content %}
+
+<section style="background:linear-gradient(135deg,#1a2e4a,#0f1e32);padding:80px 5% 60px;text-align:center">
+  <div class="container">
+    <div class="section-label">What We Offer</div>
+    <h1 style="font-size:46px;font-weight:900;color:#fff;margin-bottom:16px">Our Services</h1>
+    <p style="font-size:18px;color:rgba(255,255,255,.7);max-width:540px;margin:0 auto">Everything you need to generate leads, close clients, and grow your business on autopilot.</p>
+  </div>
+</section>
+
+{% set services = [
+  ("ai-callers","🤖","AI Callers","24/7 Automated Lead Follow-Up","var(--dark)",
+   "Never lose a lead again. Our AI voice agents call your leads within minutes of them submitting their info — qualifying them, answering questions, and booking appointments directly on your calendar. While you sleep, your AI caller is working.",
+   ["Calls leads within 60 seconds of opt-in","Qualifies leads with custom scripts","Books appointments directly to your calendar","Handles objections and follow-up calls","Works 24/7/365 — never takes a day off","Custom voice and script for your brand"]),
+  ("landing-pages","🏗️","Landing Pages","High-Converting Pages Built to Generate Leads","var(--gold)",
+   "Your website is not a landing page. A landing page has one job: convert visitors into leads. We build custom, mobile-optimized landing pages for every campaign — designed specifically for your industry and offer.",
+   ["Custom design matching your brand","Mobile-first, fast-loading","Integrated lead capture forms","A/B testing setup","Connected to your CRM automatically","Delivered in 3-5 business days"]),
+  ("crm","📊","CRM Setup & Management","Your Entire Sales Pipeline — Built and Managed","var(--red)",
+   "We build your complete CRM from scratch — pipelines, automations, follow-up sequences, appointment reminders, and reporting dashboards. Then we manage it so you never have to touch it.",
+   ["Full CRM setup (Go High Level)","Custom sales pipelines","Automated follow-up sequences","Email + SMS drip campaigns","Appointment reminder automations","Monthly pipeline reports"]),
+  ("social","📱","Social Media Management","Daily Posting on Every Platform","var(--dark)",
+   "Consistent social media presence is non-negotiable in 2026. We create and post branded content daily across Facebook, Instagram, and TikTok — so your audience keeps growing even when you're focused on running your business.",
+   ["Daily posts on Facebook + Instagram","TikTok content creation","Branded graphics and captions","Hashtag strategy","Story posting (IG + FB)","Monthly growth reports"]),
+  ("leads","🎯","Lead Generation","Targeted Ads That Bring Clients to You","var(--gold)",
+   "We run precision Google and Facebook ad campaigns targeting people who are actively searching for your service right now. Every dollar is tracked, every lead is measured, and we optimize constantly to lower your cost per lead.",
+   ["Google Search + Display campaigns","Facebook + Instagram ads","Custom audiences and retargeting","Landing page integration","Real-time lead delivery","Weekly performance reports"]),
+] %}
+
+{% for id, icon, title, sub, color, desc, features in services %}
+<section id="{{id}}" style="background:{{'var(--light)' if loop.index % 2 == 0 else '#fff'}}">
+  <div class="container">
+    <div class="grid-2" style="gap:60px">
+      {% if loop.index % 2 == 1 %}
+      <div>
+        <div style="font-size:60px;margin-bottom:20px">{{icon}}</div>
+        <div class="section-label">{{sub}}</div>
+        <h2 class="section-title">{{title}}</h2>
+        <p style="font-size:16px;color:var(--gray);line-height:1.8;margin-bottom:28px">{{desc}}</p>
+        <a href="/contact" class="btn btn-gold">Get Started →</a>
+      </div>
+      <div>
+        <div style="background:var(--dark);border-radius:20px;padding:36px">
+          <h3 style="color:var(--gold);font-size:16px;font-weight:700;margin-bottom:20px;text-transform:uppercase;letter-spacing:1px">What's Included</h3>
+          {% for f in features %}
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+            <div style="width:20px;height:20px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:900;color:var(--dark)">✓</div>
+            <span style="color:rgba(255,255,255,.85);font-size:14px">{{f}}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% else %}
+      <div>
+        <div style="background:var(--dark);border-radius:20px;padding:36px">
+          <h3 style="color:var(--gold);font-size:16px;font-weight:700;margin-bottom:20px;text-transform:uppercase;letter-spacing:1px">What's Included</h3>
+          {% for f in features %}
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+            <div style="width:20px;height:20px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:900;color:var(--dark)">✓</div>
+            <span style="color:rgba(255,255,255,.85);font-size:14px">{{f}}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div>
+        <div style="font-size:60px;margin-bottom:20px">{{icon}}</div>
+        <div class="section-label">{{sub}}</div>
+        <h2 class="section-title">{{title}}</h2>
+        <p style="font-size:16px;color:var(--gray);line-height:1.8;margin-bottom:28px">{{desc}}</p>
+        <a href="/contact" class="btn btn-gold">Get Started →</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endfor %}
+
+<section style="background:var(--dark);text-align:center">
+  <div class="container">
+    <h2 style="font-size:40px;font-weight:900;color:#fff;margin-bottom:16px">Ready to Get Started?</h2>
+    <p style="color:rgba(255,255,255,.7);font-size:17px;max-width:480px;margin:0 auto 36px">Book a free call and we'll build your custom plan in 30 minutes.</p>
+    <a href="/contact" class="btn btn-gold" style="font-size:16px;padding:16px 40px">Book Free Strategy Call →</a>
+  </div>
+</section>
+
+{% endblock %}

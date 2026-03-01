@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}Bo Knows Marketing{% endblock %}</title>
+<style>
+:root{
+  --dark:#1a2e4a;
+  --red:#c0392b;
+  --gold:#f39c12;
+  --light:#f4f6f8;
+  --white:#fff;
+  --gray:#666;
+  --mid:#e8edf2;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#333;background:#fff}
+a{text-decoration:none;color:inherit}
+
+/* NAV */
+nav{background:var(--dark);padding:0 5%;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.3)}
+.nav-logo{display:flex;align-items:center;gap:12px;padding:14px 0}
+.nav-logo .wordmark{font-size:20px;font-weight:800;color:#fff;line-height:1.1}
+.nav-logo .wordmark span{color:var(--gold)}
+.nav-logo .tagline{font-size:10px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase}
+.nav-links{display:flex;gap:6px;align-items:center}
+.nav-links a{color:rgba(255,255,255,.8);padding:8px 14px;border-radius:6px;font-size:14px;font-weight:500;transition:.2s}
+.nav-links a:hover{color:#fff;background:rgba(255,255,255,.1)}
+.nav-links .btn-nav{background:var(--gold);color:var(--dark)!important;font-weight:700;padding:9px 20px}
+.nav-links .btn-nav:hover{background:#e67e22;transform:translateY(-1px)}
+
+/* BUTTONS */
+.btn{display:inline-block;padding:14px 32px;border-radius:8px;font-weight:700;font-size:15px;cursor:pointer;transition:.2s;border:none}
+.btn-gold{background:var(--gold);color:var(--dark)}
+.btn-gold:hover{background:#e67e22;transform:translateY(-2px);box-shadow:0 8px 20px rgba(243,156,18,.4)}
+.btn-outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.5)}
+.btn-outline:hover{border-color:#fff;background:rgba(255,255,255,.1)}
+.btn-dark{background:var(--dark);color:#fff}
+.btn-dark:hover{background:#0f1e32;transform:translateY(-2px)}
+.btn-red{background:var(--red);color:#fff}
+.btn-red:hover{background:#a93226;transform:translateY(-2px)}
+
+/* SECTIONS */
+section{padding:80px 5%}
+.container{max-width:1100px;margin:0 auto}
+.section-label{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.section-title{font-size:40px;font-weight:800;color:var(--dark);line-height:1.2;margin-bottom:16px}
+.section-sub{font-size:17px;color:var(--gray);line-height:1.7;max-width:600px}
+.text-center{text-align:center}
+.text-center .section-sub{margin:0 auto}
+
+/* GRID */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+
+/* CARDS */
+.card{background:#fff;border-radius:16px;padding:32px;box-shadow:0 4px 20px rgba(0,0,0,.07);transition:.3s}
+.card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.12)}
+.card .icon{font-size:36px;margin-bottom:16px}
+.card h3{font-size:18px;font-weight:700;color:var(--dark);margin-bottom:10px}
+.card p{font-size:14px;color:var(--gray);line-height:1.7}
+.card-dark{background:var(--dark);color:#fff}
+.card-dark h3{color:#fff}
+.card-dark p{color:rgba(255,255,255,.7)}
+
+/* FOOTER */
+footer{background:var(--dark);color:rgba(255,255,255,.7);padding:60px 5% 30px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+.footer-brand .wordmark{font-size:22px;font-weight:800;color:#fff;margin-bottom:10px}
+.footer-brand .wordmark span{color:var(--gold)}
+.footer-brand p{font-size:14px;line-height:1.7}
+.footer-col h4{color:#fff;font-size:14px;font-weight:700;margin-bottom:16px;text-transform:uppercase;letter-spacing:1px}
+.footer-col a{display:block;font-size:14px;color:rgba(255,255,255,.6);margin-bottom:8px;transition:.2s}
+.footer-col a:hover{color:var(--gold)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:20px;display:flex;justify-content:space-between;font-size:13px}
+
+/* HERO BADGE */
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(243,156,18,.15);border:1px solid rgba(243,156,18,.3);color:var(--gold);padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600;margin-bottom:20px}
+
+/* FORM */
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-size:13px;font-weight:700;color:var(--dark);margin-bottom:6px}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:12px 16px;border:1.5px solid var(--mid);border-radius:8px;font-size:14px;font-family:inherit;transition:.2s;background:#fff}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(243,156,18,.15)}
+.form-group textarea{min-height:120px;resize:vertical}
+
+@media(max-width:768px){
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+  .section-title{font-size:28px}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .nav-links a:not(.btn-nav){display:none}
+}
+</style>
+{% block head %}{% endblock %}
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <div>
+      <div class="wordmark">Bo Knows <span>Marketing</span></div>
+      <div class="tagline">We Build. You Grow.</div>
+    </div>
+  </a>
+  <div class="nav-links">
+    <a href="/services">Services</a>
+    <a href="/industries">Industries</a>
+    <a href="/pricing">Pricing</a>
+    <a href="/contact" class="btn-nav btn">Get Started →</a>
+  </div>
+</nav>
+
+{% block content %}{% endblock %}
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="wordmark">Bo Knows <span>Marketing</span></div>
+        <p>Full-service digital marketing agency. We build the systems. You get the clients. Real results, real growth.</p>
+        <br>
+        <p>📞 941-725-4587</p>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <a href="/services#ai-callers">AI Callers</a>
+        <a href="/services#landing-pages">Landing Pages</a>
+        <a href="/services#crm">CRM Setup</a>
+        <a href="/services#social">Social Media</a>
+        <a href="/services#leads">Lead Generation</a>
+      </div>
+      <div class="footer-col">
+        <h4>Industries</h4>
+        <a href="/industries">Mortgage</a>
+        <a href="/industries">Roofing</a>
+        <a href="/industries">Legal</a>
+        <a href="/industries">HVAC</a>
+        <a href="/industries">Dental</a>
+        <a href="/industries">Solar</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="/pricing">Pricing</a>
+        <a href="/contact">Contact</a>
+        <a href="/contact">Book a Call</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Bo Knows Marketing. All rights reserved.</span>
+      <span>941-725-4587</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
