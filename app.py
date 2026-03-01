@@ -56,6 +56,14 @@ def pricing():
 def contact():
     return render_template("contact.html")
 
+@app.route("/ai")
+def ai_services():
+    return render_template("ai_services.html")
+
+@app.route("/ai-demo")
+def ai_demo():
+    return render_template("ai_demo.html")
+
 @app.route("/submit", methods=["POST"])
 def submit():
     data = {

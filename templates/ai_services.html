@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block title %}AI Installation Service — Bo Knows Marketing{% endblock %}
+{% block content %}
+
+<section style="background:linear-gradient(135deg,#0f1e32,#1a2e4a);padding:100px 5%;text-align:center">
+  <div class="container">
+    <div class="badge">🤖 NEW SERVICE</div>
+    <h1 style="font-size:54px;font-weight:900;color:#fff;line-height:1.1;margin-bottom:20px">Your Business.<br><span style="color:var(--gold)">Answered. 24/7.</span></h1>
+    <p style="font-size:20px;color:rgba(255,255,255,.75);max-width:580px;margin:0 auto 40px;line-height:1.7">We install AI chatbots and voice receptionists that answer your leads, qualify them, and book appointments automatically — while you sleep.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+      <a href="/ai-demo" class="btn btn-gold">See Live Demo →</a>
+      <a href="/contact" class="btn btn-outline">Get Started</a>
+    </div>
+    <div style="display:flex;gap:40px;justify-content:center;margin-top:50px;flex-wrap:wrap">
+      <div style="text-align:center"><div style="font-size:32px;font-weight:900;color:var(--gold)">30 sec</div><div style="font-size:13px;color:rgba(255,255,255,.6);margin-top:4px">Response Time</div></div>
+      <div style="text-align:center"><div style="font-size:32px;font-weight:900;color:var(--gold)">24/7</div><div style="font-size:13px;color:rgba(255,255,255,.6);margin-top:4px">Always On</div></div>
+      <div style="text-align:center"><div style="font-size:32px;font-weight:900;color:var(--gold)">5 Days</div><div style="font-size:13px;color:rgba(255,255,255,.6);margin-top:4px">To Launch</div></div>
+      <div style="text-align:center"><div style="font-size:32px;font-weight:900;color:var(--gold)">0</div><div style="font-size:13px;color:rgba(255,255,255,.6);margin-top:4px">Leads Missed</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TWO SYSTEMS -->
+<section style="background:var(--light)">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:50px">
+      <div class="section-label">What We Install</div>
+      <div class="section-title">Two AI Systems. One Goal:<br>Never Lose a Lead Again.</div>
+    </div>
+    <div class="grid-2" style="gap:30px">
+      <div class="card" style="border-top:4px solid var(--gold);padding:40px">
+        <div style="font-size:50px;margin-bottom:20px">💬</div>
+        <h3 style="font-size:22px;margin-bottom:12px">AI Chatbot</h3>
+        <p style="color:var(--gray);line-height:1.8;margin-bottom:24px">Lives on your website. The second someone visits, it greets them, answers their questions, collects their info, and books them on your calendar — automatically, 24/7.</p>
+        {% for f in ["Responds instantly to every visitor","Custom script for your business","Collects name, phone, email","Books directly to your calendar","Integrates with your CRM","Works while you sleep"] %}
+        <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;font-size:14px"><span style="color:#27ae60;font-weight:800">✓</span>{{f}}</div>
+        {% endfor %}
+        <br>
+        <div style="font-size:32px;font-weight:900;color:var(--dark)">$2,500 <span style="font-size:15px;font-weight:400;color:var(--gray)">one-time</span></div>
+      </div>
+      <div class="card" style="border-top:4px solid var(--red);padding:40px">
+        <div style="font-size:50px;margin-bottom:20px">📞</div>
+        <h3 style="font-size:22px;margin-bottom:12px">AI Voice Receptionist</h3>
+        <p style="color:var(--gray);line-height:1.8;margin-bottom:24px">Answers every inbound call, qualifies the caller, and books them on your calendar. Sounds professional. Works nights, weekends, and holidays. Never puts anyone on hold.</p>
+        {% for f in ["Answers every call instantly","Custom voice and script","Qualifies and screens callers","Books appointments automatically","Handles common questions","Works 24/7/365"] %}
+        <div style="display:flex;gap:10px;align-items:center;margin-bottom:10px;font-size:14px"><span style="color:#27ae60;font-weight:800">✓</span>{{f}}</div>
+        {% endfor %}
+        <br>
+        <div style="font-size:32px;font-weight:900;color:var(--dark)">$3,500 <span style="font-size:15px;font-weight:400;color:var(--gray)">one-time</span></div>
+      </div>
+    </div>
+
+    <!-- BUNDLE -->
+    <div style="background:var(--dark);border-radius:20px;padding:40px;margin-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px">
+      <div>
+        <div style="color:var(--gold);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">🔥 BEST VALUE — BUNDLE BOTH</div>
+        <h3 style="color:#fff;font-size:26px;font-weight:900;margin-bottom:6px">AI Chatbot + Voice Receptionist</h3>
+        <p style="color:rgba(255,255,255,.7);font-size:15px">Get both systems installed. Save $1,000 vs buying separately.</p>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:42px;font-weight:900;color:var(--gold)">$5,000</div>
+        <div style="color:rgba(255,255,255,.5);font-size:14px;text-decoration:line-through">$6,000</div>
+        <a href="/contact" class="btn btn-gold" style="margin-top:12px;display:inline-block">Get Started →</a>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:16px;font-size:14px;color:var(--gray)">➕ Optional monthly management: <strong>$500/mo</strong> — we keep your AI optimized</div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section style="background:#fff">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:50px">
+      <div class="section-label">The Process</div>
+      <div class="section-title">Live in 3 Simple Steps</div>
+    </div>
+    <div class="grid-3">
+      {% for step in [("1","Strategy Call","30-minute call where we learn your business, customers, and goals. We write the custom AI script.","var(--dark)"),("2","We Build & Install","We build your AI, test it, and install it on your website and phone system. Done in 3-5 days.","var(--gold)"),("3","You Get More Clients","Every lead gets an instant response. More appointments. More clients. More revenue.","var(--red)")] %}
+      <div style="text-align:center">
+        <div style="width:60px;height:60px;background:{{step[3]}};border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;color:#fff;margin:0 auto 16px">{{step[0]}}</div>
+        <h3 style="font-size:18px;font-weight:700;color:var(--dark);margin-bottom:8px">{{step[1]}}</h3>
+        <p style="font-size:14px;color:var(--gray);line-height:1.6">{{step[2]}}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- DEMO CTA -->
+<section style="background:var(--light)">
+  <div class="container" style="text-align:center">
+    <div class="section-label">See It In Action</div>
+    <h2 class="section-title">Try the Live AI Demo</h2>
+    <p class="section-sub" style="margin:0 auto 36px">Click below and interact with a real AI chatbot — exactly like what we'd install on your website. Takes 2 minutes and you'll get it immediately.</p>
+    <a href="/ai-demo" class="btn btn-gold" style="font-size:17px;padding:18px 48px">Launch Live Demo →</a>
+    <p style="margin-top:16px;font-size:14px;color:var(--gray)">No signup required. Just click and try it.</p>
+  </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section style="background:#fff">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:40px">
+      <h2 class="section-title">Works for Any Service Business</h2>
+    </div>
+    <div class="grid-4">
+      {% for i in [("🏦","Mortgage"),("⚖️","Law Firms"),("🦷","Dental"),("🏠","Real Estate"),("☀️","Solar"),("🔧","HVAC"),("🏗️","Roofing"),("💰","Insurance")] %}
+      <div style="background:var(--light);border-radius:12px;padding:20px;text-align:center">
+        <div style="font-size:30px;margin-bottom:8px">{{i[0]}}</div>
+        <p style="font-size:13px;font-weight:700;color:var(--dark)">{{i[1]}}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background:var(--dark);text-align:center">
+  <div class="container">
+    <h2 style="font-size:42px;font-weight:900;color:#fff;margin-bottom:16px">Ready to Never Miss<br>Another Lead?</h2>
+    <p style="color:rgba(255,255,255,.7);font-size:17px;max-width:480px;margin:0 auto 16px;line-height:1.7">Call or text us. We'll show you a live demo and build your custom plan in 30 minutes.</p>
+    <div style="font-size:36px;font-weight:900;color:var(--gold);margin:20px 0 8px">📞 941-725-4587</div>
+    <p style="color:rgba(255,255,255,.4);font-size:14px;margin-bottom:30px">Call or text anytime</p>
+    <a href="/contact" class="btn btn-gold" style="font-size:17px;padding:18px 48px">Book Free Strategy Call →</a>
+  </div>
+</section>
+
+{% endblock %}

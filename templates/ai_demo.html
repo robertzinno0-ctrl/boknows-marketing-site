@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Chatbot Demo — Bo Knows Marketing</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #f0f4f8;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  /* Fake website backdrop */
+  .fake-site {
+    width: 100%;
+    max-width: 1100px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+    overflow: hidden;
+    position: relative;
+    min-height: 600px;
+  }
+  .fake-nav {
+    background: #1a2e4a;
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .fake-nav .logo {
+    color: #f39c12;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  .fake-nav .logo span { color: white; }
+  .fake-nav-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+  .fake-nav-links li a {
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 14px;
+  }
+  .fake-hero {
+    padding: 60px 32px;
+    background: linear-gradient(135deg, #1a2e4a 0%, #243d5c 100%);
+    color: white;
+    text-align: center;
+  }
+  .fake-hero h1 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+  .fake-hero h1 span { color: #f39c12; }
+  .fake-hero p {
+    color: rgba(255,255,255,0.7);
+    font-size: 16px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  .fake-body {
+    padding: 40px 32px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .fake-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 24px;
+  }
+  .fake-card h3 { color: #1a2e4a; font-size: 15px; margin-bottom: 8px; }
+  .fake-card p { color: #666; font-size: 13px; line-height: 1.6; }
+
+  /* CHAT WIDGET */
+  #chat-bubble {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 62px;
+    height: 62px;
+    background: #c0392b;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(192,57,43,0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+    z-index: 9999;
+  }
+  #chat-bubble:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 28px rgba(192,57,43,0.6);
+  }
+  #chat-bubble svg { width: 28px; height: 28px; fill: white; }
+  #chat-bubble .notif-dot {
+    position: absolute;
+    top: 4px; right: 4px;
+    width: 14px; height: 14px;
+    background: #f39c12;
+    border-radius: 50%;
+    border: 2px solid white;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.25); }
+  }
+
+  #chat-window {
+    position: fixed;
+    bottom: 104px;
+    right: 28px;
+    width: 370px;
+    max-height: 560px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 12px 50px rgba(0,0,0,0.18);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 9998;
+    transform: scale(0.8) translateY(20px);
+    opacity: 0;
+    pointer-events: none;
+    transform-origin: bottom right;
+    transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), opacity 0.2s;
+  }
+  #chat-window.open {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .chat-header {
+    background: linear-gradient(135deg, #1a2e4a, #243d5c);
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .chat-avatar {
+    width: 40px; height: 40px;
+    background: #c0392b;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    border: 2px solid #f39c12;
+  }
+  .chat-header-info h4 {
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .chat-header-info p {
+    color: #f39c12;
+    font-size: 11px;
+    margin-top: 1px;
+  }
+  .online-dot {
+    width: 8px; height: 8px;
+    background: #2ecc71;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 4px;
+  }
+  .chat-close {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.6);
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    padding: 4px;
+    transition: color 0.2s;
+  }
+  .chat-close:hover { color: white; }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #f8f9fb;
+  }
+  .chat-messages::-webkit-scrollbar { width: 4px; }
+  .chat-messages::-webkit-scrollbar-thumb { background: #ddd; border-radius: 2px; }
+
+  .msg {
+    max-width: 82%;
+    font-size: 13.5px;
+    line-height: 1.5;
+    animation: msgIn 0.3s ease;
+  }
+  @keyframes msgIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .msg.bot {
+    align-self: flex-start;
+    background: white;
+    color: #222;
+    border-radius: 16px 16px 16px 4px;
+    padding: 10px 14px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .msg.user {
+    align-self: flex-end;
+    background: #1a2e4a;
+    color: white;
+    border-radius: 16px 16px 4px 16px;
+    padding: 10px 14px;
+  }
+  .msg.bot .msg-sender {
+    font-size: 10px;
+    color: #c0392b;
+    font-weight: 600;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .quick-replies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 4px;
+  }
+  .quick-reply-btn {
+    background: white;
+    border: 1.5px solid #1a2e4a;
+    color: #1a2e4a;
+    border-radius: 20px;
+    padding: 6px 13px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.18s;
+    font-family: 'Inter', sans-serif;
+  }
+  .quick-reply-btn:hover {
+    background: #1a2e4a;
+    color: white;
+  }
+
+  .typing-indicator {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    padding: 10px 14px;
+    background: white;
+    border-radius: 16px 16px 16px 4px;
+    width: fit-content;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    align-self: flex-start;
+  }
+  .typing-indicator span {
+    width: 7px; height: 7px;
+    background: #aaa;
+    border-radius: 50%;
+    animation: typing 1.2s infinite;
+  }
+  .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typing {
+    0%, 60%, 100% { transform: translateY(0); background: #aaa; }
+    30% { transform: translateY(-5px); background: #c0392b; }
+  }
+
+  .chat-input-area {
+    padding: 12px 14px;
+    border-top: 1px solid #eee;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    background: white;
+  }
+  #chat-input {
+    flex: 1;
+    border: 1.5px solid #ddd;
+    border-radius: 24px;
+    padding: 9px 16px;
+    font-size: 13px;
+    outline: none;
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.2s;
+  }
+  #chat-input:focus { border-color: #1a2e4a; }
+  #chat-send {
+    width: 38px; height: 38px;
+    background: #c0392b;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  #chat-send:hover { background: #a93226; }
+  #chat-send svg { width: 16px; height: 16px; fill: white; }
+
+  .chat-powered {
+    text-align: center;
+    font-size: 10px;
+    color: #aaa;
+    padding: 6px;
+    background: white;
+  }
+  .chat-powered a { color: #f39c12; text-decoration: none; font-weight: 600; }
+
+  .demo-banner {
+    background: #f39c12;
+    color: #1a2e4a;
+    text-align: center;
+    padding: 10px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .demo-banner a { color: #1a2e4a; }
+</style>
+</head>
+<body>
+
+<div class="fake-site">
+  <div class="demo-banner">
+    🎯 DEMO — This is how your AI chatbot would look on your website. <a href="https://boknowsmarketingus.com">boknowsmarketingus.com</a>
+  </div>
+  <nav class="fake-nav">
+    <div class="logo">Bo Knows <span>Marketing</span></div>
+    <ul class="fake-nav-links">
+      <li><a href="#">Services</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Portfolio</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+  <div class="fake-hero">
+    <h1>Grow Your Business with <span>Smart Marketing</span></h1>
+    <p>We help local businesses get more leads, more calls, and more customers — without the hassle.</p>
+  </div>
+  <div class="fake-body">
+    <div class="fake-card">
+      <h3>🚀 Lead Generation</h3>
+      <p>Targeted campaigns that bring real customers to your door, not just clicks.</p>
+    </div>
+    <div class="fake-card">
+      <h3>📱 Social Media Management</h3>
+      <p>Consistent, on-brand content that builds trust and grows your following.</p>
+    </div>
+    <div class="fake-card">
+      <h3>🤖 AI Automation</h3>
+      <p>AI chatbots and voice receptionists that work for you 24/7, never miss a lead.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Chat Bubble -->
+<div id="chat-bubble" onclick="toggleChat()">
+  <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+  <div class="notif-dot"></div>
+</div>
+
+<!-- Chat Window -->
+<div id="chat-window">
+  <div class="chat-header">
+    <div class="chat-avatar">🤖</div>
+    <div class="chat-header-info">
+      <h4>Aria — Bo Knows AI</h4>
+      <p><span class="online-dot"></span>Online now · Typically replies instantly</p>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+
+  <div class="chat-messages" id="messages"></div>
+
+  <div class="chat-input-area">
+    <input type="text" id="chat-input" placeholder="Type a message..." onkeypress="handleKey(event)" />
+    <button id="chat-send" onclick="sendUserMessage()">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </div>
+  <div class="chat-powered">Powered by <a href="https://boknowsmarketingus.com">Bo Knows Marketing AI</a> · 941-725-4587</div>
+</div>
+
+<script>
+let chatOpen = false;
+let step = 0;
+let userData = {};
+let waitingForInput = false;
+
+const flow = [
+  {
+    bot: ["Hey there! 👋 I'm Aria, your AI assistant.", "I can help you get a free consultation with our team. It'll only take a minute!", "What's the name of your business?"],
+    inputLabel: "Type your business name...",
+    key: "businessName"
+  },
+  {
+    bot: ["Great! Nice to meet you, {businessName}! 🙌", "What service are you most interested in?"],
+    quickReplies: ["AI Chatbot", "AI Voice Receptionist", "Full AI Bundle", "Not sure yet"],
+    key: "service"
+  },
+  {
+    bot: ["Perfect choice! 🎯", "What's the best time for one of our specialists to give you a quick call?"],
+    quickReplies: ["Morning (9am–12pm)", "Afternoon (12pm–4pm)", "Evening (4pm–7pm)", "ASAP!"],
+    key: "time"
+  },
+  {
+    bot: ["Awesome! Last thing — what's the best number to reach you?"],
+    inputLabel: "Your phone number...",
+    key: "phone"
+  },
+  {
+    bot: ["You're all set, {businessName}! ✅", "A Bo Knows Marketing specialist will call you {time} to talk about {service}.", "We're excited to help your business grow! 🚀", "In the meantime, feel free to visit us at boknowsmarketingus.com or call/text us at 941-725-4587."],
+    final: true
+  }
+];
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  const win = document.getElementById('chat-window');
+  if (chatOpen) {
+    win.classList.add('open');
+    if (step === 0 && document.getElementById('messages').children.length === 0) {
+      setTimeout(() => runBotStep(0), 400);
+    }
+  } else {
+    win.classList.remove('open');
+  }
+}
+
+function addBotMsg(text, opts = {}) {
+  const msgs = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = 'msg bot';
+  div.innerHTML = `<div class="msg-sender">Aria · AI Assistant</div>${text}`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+
+  if (opts.quickReplies) {
+    const qr = document.createElement('div');
+    qr.className = 'quick-replies';
+    opts.quickReplies.forEach(label => {
+      const btn = document.createElement('button');
+      btn.className = 'quick-reply-btn';
+      btn.textContent = label;
+      btn.onclick = () => {
+        handleQuickReply(label, qr);
+      };
+      qr.appendChild(btn);
+    });
+    msgs.appendChild(qr);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+}
+
+function addUserMsg(text) {
+  const msgs = document.getElementById('messages');
+  const div = document.createElement('div');
+  div.className = 'msg user';
+  div.textContent = text;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showTyping(duration) {
+  const msgs = document.getElementById('messages');
+  const t = document.createElement('div');
+  t.className = 'typing-indicator';
+  t.id = 'typing';
+  t.innerHTML = '<span></span><span></span><span></span>';
+  msgs.appendChild(t);
+  msgs.scrollTop = msgs.scrollHeight;
+  return new Promise(resolve => setTimeout(() => {
+    const el = document.getElementById('typing');
+    if (el) el.remove();
+    resolve();
+  }, duration));
+}
+
+function fillTemplate(str) {
+  return str.replace(/\{(\w+)\}/g, (_, k) => userData[k] || '');
+}
+
+async function runBotStep(i) {
+  if (i >= flow.length) return;
+  const s = flow[i];
+  step = i;
+
+  for (let mi = 0; mi < s.bot.length; mi++) {
+    await showTyping(800 + Math.random() * 400);
+    const isLast = mi === s.bot.length - 1;
+    addBotMsg(fillTemplate(s.bot[mi]), isLast && s.quickReplies ? { quickReplies: s.quickReplies } : {});
+    await new Promise(r => setTimeout(r, 300));
+  }
+
+  if (s.inputLabel) {
+    document.getElementById('chat-input').placeholder = s.inputLabel;
+    waitingForInput = true;
+  }
+
+  if (s.final) {
+    document.getElementById('chat-input').disabled = true;
+    document.getElementById('chat-send').disabled = true;
+    document.getElementById('chat-input').placeholder = 'Chat ended. Call us: 941-725-4587';
+  }
+}
+
+function handleQuickReply(label, container) {
+  // Remove quick replies
+  container.remove();
+  addUserMsg(label);
+  userData[flow[step].key] = label;
+  setTimeout(() => runBotStep(step + 1), 400);
+}
+
+function sendUserMessage() {
+  if (!waitingForInput) return;
+  const input = document.getElementById('chat-input');
+  const val = input.value.trim();
+  if (!val) return;
+  input.value = '';
+  addUserMsg(val);
+  userData[flow[step].key] = val;
+  waitingForInput = false;
+  input.placeholder = 'Type a message...';
+  setTimeout(() => runBotStep(step + 1), 400);
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter') sendUserMessage();
+}
+
+// Auto-open after 3 seconds
+setTimeout(() => {
+  if (!chatOpen) toggleChat();
+}, 3000);
+</script>
+</body>
+</html>
