@@ -76,7 +76,18 @@ def submit():
     }
     save_lead(data)
     push_to_ghl(data)
+    send_lead_text(data)
     return render_template("thank_you.html", name=data["name"].split()[0])
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5051, debug=False)
+
+def send_lead_text(data):
+    try:
+        import sys
+        sys.path.insert(0, '/Users/robertzinno/.openclaw/workspace/boknowshouses-leads')
+        from twilio_sms import send_sms
+        msg = f"🔥 NEW LEAD — Bo Knows Marketing\nName: {data.get('name','')}\nPhone: {data.get('phone','')}\nCompany: {data.get('company','')}\nService: {data.get('service','')}"
+        send_sms(msg)
+    except Exception as e:
+        print(f"SMS error: {e}")
