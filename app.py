@@ -83,6 +83,28 @@ def submit():
 def mortgage_leads():
     return render_template("mortgage_leads.html")
 
+@app.route("/get-quote")
+def mortgage_capture():
+    return render_template("mortgage_capture.html")
+
+@app.route("/api/capture_mortgage_lead", methods=["POST"])
+def capture_mortgage_lead():
+    data = {
+        "name":    request.form.get("first_name","") + " " + request.form.get("last_name",""),
+        "email":   request.form.get("email",""),
+        "phone":   request.form.get("phone",""),
+        "state":   request.form.get("state",""),
+        "zip":     request.form.get("zip",""),
+        "service": "Mortgage Lead",
+        "message": f"Goal: {request.form.get('goal','')} | Home Value: {request.form.get('home_value','')} | Credit: {request.form.get('credit','')} | State: {request.form.get('state','')} {request.form.get('zip','')}",
+        "source":  "Mortgage Capture Page",
+        "company": "",
+    }
+    save_lead(data)
+    push_to_ghl(data)
+    send_lead_text(data)
+    return jsonify({"success": True})
+
 @app.route("/api/mortgage_lead_inquiry", methods=["POST"])
 def mortgage_lead_inquiry():
     data = {
