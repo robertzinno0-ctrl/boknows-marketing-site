@@ -79,6 +79,27 @@ def submit():
     send_lead_text(data)
     return render_template("thank_you.html", name=data["name"].split()[0])
 
+@app.route("/mortgage-leads")
+def mortgage_leads():
+    return render_template("mortgage_leads.html")
+
+@app.route("/api/mortgage_lead_inquiry", methods=["POST"])
+def mortgage_lead_inquiry():
+    data = {
+        "name":          request.form.get("first_name","") + " " + request.form.get("last_name",""),
+        "email":         request.form.get("email",""),
+        "phone":         request.form.get("phone",""),
+        "company":       request.form.get("company",""),
+        "package":       request.form.get("package",""),
+        "target_states": request.form.get("target_states",""),
+        "service":       "Mortgage Leads",
+        "message":       f"Package: {request.form.get('package','')} | States: {request.form.get('target_states','')}",
+    }
+    save_lead(data)
+    push_to_ghl(data)
+    send_lead_text(data)
+    return jsonify({"success": True})
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5051, debug=False)
 
