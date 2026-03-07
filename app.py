@@ -162,8 +162,8 @@ def mortgage_lead_inquiry():
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5051, debug=False)
 
-def send_lead_text(data)
-    send_lead_email(data):
+def send_lead_text(data):
+    send_lead_email(data)
     try:
         import sys
         sys.path.insert(0, '/Users/robertzinno/.openclaw/workspace/boknowshouses-leads')
