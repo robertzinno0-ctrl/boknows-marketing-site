@@ -1,7 +1,41 @@
 from flask import Flask, render_template, request, jsonify, redirect
-import json, os, datetime, requests
+import json, os, datetime, requests, smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
 GHL_API_KEY = os.environ.get("GHL_API_KEY", "")
 GHL_LOCATION_ID = os.environ.get("GHL_LOCATION_ID", "")
+
+SMTP_USER = "boknowsmarketingus@gmail.com"
+SMTP_PASS = "dfuu rgsa vmlk fakr"
+ALERT_EMAIL = "boknowsmarketingus@gmail.com"
+
+def send_lead_email(data):
+    try:
+        msg = MIMEMultipart()
+        msg["From"]    = SMTP_USER
+        msg["To"]      = ALERT_EMAIL
+        msg["Subject"] = f"🔥 New Lead — {data.get('service','BKM')} — {data.get('name','')}"
+        body = f"""New Lead Received!
+
+Name:    {data.get('name','')}
+Phone:   {data.get('phone','')}
+Email:   {data.get('email','')}
+Company: {data.get('company','')}
+Service: {data.get('service','')}
+State:   {data.get('state','')} {data.get('zip','')}
+Message: {data.get('message','')}
+Source:  {data.get('source','')}
+Time:    {datetime.datetime.now().strftime('%B %d, %Y at %I:%M %p ET')}
+"""
+        msg.attach(MIMEText(body, "plain"))
+        server = smtplib.SMTP("smtp.gmail.com", 587)
+        server.starttls()
+        server.login(SMTP_USER, SMTP_PASS)
+        server.sendmail(SMTP_USER, ALERT_EMAIL, msg.as_string())
+        server.quit()
+    except Exception as e:
+        print(f"Email error: {e}")
 
 app = Flask(__name__)
 
@@ -77,6 +111,7 @@ def submit():
     save_lead(data)
     push_to_ghl(data)
     send_lead_text(data)
+    send_lead_email(data)
     return render_template("thank_you.html", name=data["name"].split()[0])
 
 @app.route("/mortgage-leads")
@@ -103,6 +138,7 @@ def capture_mortgage_lead():
     save_lead(data)
     push_to_ghl(data)
     send_lead_text(data)
+    send_lead_email(data)
     return jsonify({"success": True})
 
 @app.route("/api/mortgage_lead_inquiry", methods=["POST"])
@@ -120,12 +156,14 @@ def mortgage_lead_inquiry():
     save_lead(data)
     push_to_ghl(data)
     send_lead_text(data)
+    send_lead_email(data)
     return jsonify({"success": True})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5051, debug=False)
 
-def send_lead_text(data):
+def send_lead_text(data)
+    send_lead_email(data):
     try:
         import sys
         sys.path.insert(0, '/Users/robertzinno/.openclaw/workspace/boknowshouses-leads')
